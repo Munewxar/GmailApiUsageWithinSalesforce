@@ -1,0 +1,27 @@
+<template>
+    <lightning-card title="Mail for Steven Altamirano">
+        <lightning-button label="Send Email" slot="actions" onclick={handleSendEmail}
+            disabled={isLoading}></lightning-button>
+
+        <template if:true={isLoading}>
+            <div class="spinner-container">
+                <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+            </div>
+        </template>
+
+
+        <template if:false={isLoading}>
+            <div class="slds-p-horizontal_medium">
+                <template if:true={messages}>
+                    <template for:each={messages} for:item="message">
+                        <c-gmail-api-message key={message.Id} message={message}></c-gmail-api-message>
+                    </template>
+                </template>
+
+                <template if:true={error}>
+                    <p>{error}</p>
+                </template>
+            </div>
+        </template>
+    </lightning-card>
+</template>
