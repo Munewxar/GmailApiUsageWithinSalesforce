@@ -78,6 +78,6 @@ public with sharing class GmailJsonParser {
 		String formattedMessage = message.replace('-', '+');
 		formattedMessage = formattedMessage.replace('_', '/');
 
-		return EncodingUtil.base64Decode(formattedMessage).toString();
+		return EncodingUtil.base64Decode(formattedMessage).toString().trim();
 	}
 }
