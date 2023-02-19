@@ -14,4 +14,14 @@ public with sharing class GmailPublicApiController {
 
 		return messageDtos;
 	}
+
+	@AuraEnabled
+	public static List<Custom_Email_Message__c> retrieveMessages(Integer pageNumber) {
+		try {
+			Integer offset = pageNumber * 50;
+			return CustomEmailMessageSelector.selectMessagesWithOffset(offset);
+		} catch (Exception e) {
+			throw new AuraHandledException(e.getMessage());
+		}
+	}
 }
