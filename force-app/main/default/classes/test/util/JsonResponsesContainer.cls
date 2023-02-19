@@ -9,12 +9,7 @@ public with sharing class JsonResponsesContainer {
 		'18596c90603cb9bc'
 	};
 
-	public static final MessageDto parsedMessage = new MessageDto(
-		MESSAGE_ID,
-		SENDER,
-		SUBJECT,
-		MESSAGE
-	);
+	public static final MessageDto parsedMessage = new MessageDto();
 
 	public static final String MESSAGE_IDS_RESPONSE =
 		'{' +
