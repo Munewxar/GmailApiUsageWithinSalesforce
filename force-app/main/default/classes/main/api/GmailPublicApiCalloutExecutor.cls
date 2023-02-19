@@ -19,7 +19,6 @@ public with sharing class GmailPublicApiCalloutExecutor {
 		HttpResponse response = sendGetRequestToEndpoint(endpoint);
 
 		if (response.getStatusCode() == STATUS_CODE_SUCCESS) {
-			System.debug(response.getBody());
 			return response.getBody();
 		}
 

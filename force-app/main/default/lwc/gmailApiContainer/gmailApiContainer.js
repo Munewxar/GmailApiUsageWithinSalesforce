@@ -13,6 +13,7 @@ export default class GmailApiContainer extends LightningElement {
     callRetrieveMessages() {
         retrieveMessages()
             .then(result => {
+                console.log(result);
                 this.messages = result;
                 this.error = undefined;
             })
