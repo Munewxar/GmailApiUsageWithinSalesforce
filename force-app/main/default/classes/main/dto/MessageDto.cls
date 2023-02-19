@@ -1,17 +1,47 @@
 public with sharing class MessageDto {
-	@AuraEnabled
-	public String id;
-	@AuraEnabled
-	public String fromValue;
-	@AuraEnabled
-	public String subjectValue;
-	@AuraEnabled
-	public String messageValue;
+	// TODO: change field names (delete Value postfix), from may be sender
 
-	public MessageDto(String id, String fromValue, String subjectValue, String messageValue) {
-		this.id = id;
-		this.fromValue = fromValue;
-		this.subjectValue = subjectValue;
-		this.messageValue = messageValue;
+	public String id;
+	public String threadId;
+	public List<String> labelIds;
+	public String snippet;
+	public Payload payload;
+	public Integer sizeEstimate;
+	public String historyId;
+	public String internalDate;
+
+	public class Payload {
+		public String partId;
+		public String mimeType;
+		public String filename;
+		public List<Headers> headers;
+		public Body body;
+		public List<Parts> parts;
+	}
+
+	public class Headers {
+		public String name;
+		public String value;
+	}
+
+	public class Body {
+		public Integer size;
+	}
+
+	public class Parts {
+		public String partId;
+		public String mimeType;
+		public String filename;
+		public List<Headers> headers;
+		public PartBody body;
+	}
+
+	public class PartBody {
+		public Integer size;
+		public String data;
+	}
+
+	public static MessageDto parse(String json) {
+		return (MessageDto) System.JSON.deserialize(json, MessageDto.class);
 	}
 }
