@@ -1,4 +1,5 @@
 public with sharing class GmailJsonParser {
+	private static final String ID_TOKEN = 'id';
 	private Integer maxMessagesAmount;
 
 	public GmailJsonParser(Integer maxMessagesAmount) {
@@ -15,7 +16,7 @@ public with sharing class GmailJsonParser {
 		while (parser.nextToken() != null && idsCounter < maxMessagesAmount) {
 			Boolean isCurrentTokenIdFieldName =
 				parser.getCurrentToken() == JSONToken.FIELD_NAME &&
-				parser.getText() == 'id';
+				parser.getText() == ID_TOKEN;
 
 			if (isCurrentTokenIdFieldName) {
 				parser.nextToken();
@@ -29,55 +30,18 @@ public with sharing class GmailJsonParser {
 		return messageIds;
 	}
 
-	public MessageDto parseMessage(String messageResponse) {
-		JSONParser parser = JSON.createParser(messageResponse);
-
-		String id = '';
-		String fromValue = '';
-		String subjectValue = '';
-		String messageValue = '';
-
-		while (parser.nextToken() != null) {
-			if (parser.getCurrentToken() == JSONToken.FIELD_NAME && parser.getText() == 'id') {
-				parser.nextToken();
-
-				id = parser.getText();
-			} else if (
-				parser.getCurrentToken() == JSONToken.VALUE_STRING &&
-				parser.getText() == 'From'
-			) {
-				parser.nextToken();
-				parser.nextToken();
-
-				fromValue = parser.getText();
-			} else if (
-				parser.getCurrentToken() == JSONToken.VALUE_STRING &&
-				parser.getText() == 'Subject'
-			) {
-				parser.nextToken();
-				parser.nextToken();
-
-				subjectValue = parser.getText();
-			} else if (
-				parser.getCurrentToken() == JSONToken.FIELD_NAME &&
-				parser.getText() == 'data'
-			) {
-				parser.nextToken();
-
-				String encodedMessage = parser.getText();
-				messageValue = decodeMessage(encodedMessage);
-
-				break;
-			}
-		}
-
-		return new MessageDto(id, fromValue, subjectValue, messageValue);
-	}
-
-	private String decodeMessage(String message) {
+	public String decodeMessage(String message) {
 		String formattedMessage = message.replace('-', '+');
 		formattedMessage = formattedMessage.replace('_', '/');
 
 		return EncodingUtil.base64Decode(formattedMessage).toString().trim();
+	}
+
+	public String parseSenderName(String sender) {
+		return sender.substringBefore('\u003c');
+	}
+
+	public String parseSenderEmail(String sender) {
+		return sender.substringBetween('\u003c', '\u003e');
 	}
 }
