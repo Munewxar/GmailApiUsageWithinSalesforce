@@ -1,0 +1,11 @@
+<template>
+    <lightning-modal-header label="Enter Message Detials"></lightning-modal-header>
+    <lightning-modal-body>
+        <lightning-input type="email" class="email" label="To Address:"></lightning-input>
+        <lightning-input type="text" class="subject" label="Subject:"></lightning-input>
+        <lightning-textarea name="message" class="message" label="Message:" ></lightning-textarea>
+    </lightning-modal-body>
+    <lightning-modal-footer>
+        <lightning-button onclick={handleSendClick} variant="brand" label="Send"></lightning-button>
+    </lightning-modal-footer>
+</template>
