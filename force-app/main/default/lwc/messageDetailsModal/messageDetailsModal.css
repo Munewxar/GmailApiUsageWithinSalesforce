@@ -1,0 +1,11 @@
+.sender-info-container {
+	background-color: #f4f2f4;
+}
+
+.bold-text {
+	font-weight: 500;
+}
+
+.sender-info {
+	display: inline;
+}

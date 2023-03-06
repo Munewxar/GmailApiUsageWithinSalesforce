@@ -1,0 +1,16 @@
+<template>
+	<lightning-modal-header label={headerLabel}></lightning-modal-header>
+	<lightning-modal-body class="message-text slds-scrollable_y">
+		<div class="sender-info-container slds-var-m-bottom_small slds-var-p-around_xx-small">
+			<p class="bold-text sender-info">{message.Sender_Name__c}</p>
+			<p class="sender-info">&#32;&#60;{message.Sender_Email__c}&#62;</p>
+		</div>
+
+		<div class="slds-var-m-top_medium slds-var-p-horizontal_xx-small">
+			<lightning-formatted-text value={message.Message_Text__c}></lightning-formatted-text>
+		</div>
+	</lightning-modal-body>
+	<lightning-modal-footer>
+		<lightning-button onclick={handleClose} variant="brand" label="Close"></lightning-button>
+	</lightning-modal-footer>
+</template>
