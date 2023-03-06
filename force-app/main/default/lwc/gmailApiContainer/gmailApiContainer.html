@@ -1,27 +1,64 @@
+<!-- sldsValidatorIgnore -->
 <template>
-    <lightning-card title="Mail for Steven Altamirano">
-        <lightning-button label="Send Email" slot="actions" onclick={handleSendEmail}
-            disabled={isLoading}></lightning-button>
+	<lightning-card title="Mail for Steven Altamirano">
+		<lightning-button
+			label="Send Email"
+			slot="actions"
+			onclick={handleOpenMessageDetailsInputModal}
+			disabled={isLoading}
+		></lightning-button>
 
-        <template if:true={isLoading}>
-            <div class="spinner-container">
-                <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
-            </div>
-        </template>
+		<template if:true={isLoading}>
+			<div class="spinner-container">
+				<lightning-spinner
+					alternative-text="Loading"
+					size="medium"
+					variant="brand"
+				></lightning-spinner>
+			</div>
+		</template>
 
+		<template if:false={isLoading}>
+			<div class="slds-var-p-horizontal_medium">
+				<template if:true={messages}>
+					<template for:each={messages} for:item="message">
+						<c-gmail-api-message
+							key={message.Id}
+							message={message}
+						></c-gmail-api-message>
+					</template>
+				</template>
 
-        <template if:false={isLoading}>
-            <div class="slds-p-horizontal_medium">
-                <template if:true={messages}>
-                    <template for:each={messages} for:item="message">
-                        <c-gmail-api-message key={message.Id} message={message}></c-gmail-api-message>
-                    </template>
-                </template>
+				<template if:true={error}>
+					<p>{error}</p>
+				</template>
+			</div>
+		</template>
 
-                <template if:true={error}>
-                    <p>{error}</p>
-                </template>
-            </div>
-        </template>
-    </lightning-card>
+		<div slot="footer">
+			<lightning-layout vertical-align="center">
+				<lightning-layout-item size="8">
+					<div class="slds-text-align_left">Page {pageNumber} of {totalPagesAmount}</div>
+				</lightning-layout-item>
+
+				<lightning-layout-item size="4" class="slds-text-align_right">
+					<lightning-button-icon
+						icon-name="utility:chevronleft"
+						class="slds-p-around_small"
+						disabled={isPrevButtonDisabled}
+						variant="brand"
+						onclick={handlePrevPageNav}
+					></lightning-button-icon>
+
+					<lightning-button-icon
+						icon-name="utility:chevronright"
+						class="slds-p-around_small"
+						disabled={isNextButtonDisabled}
+						variant="brand"
+						onclick={handleNextPageNav}
+					></lightning-button-icon>
+				</lightning-layout-item>
+			</lightning-layout>
+		</div>
+	</lightning-card>
 </template>
