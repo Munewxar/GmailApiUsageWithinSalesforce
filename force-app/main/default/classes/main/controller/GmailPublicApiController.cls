@@ -1,27 +1,31 @@
 public with sharing class GmailPublicApiController {
-	@AuraEnabled
-	public static List<MessageDto> retrieveMessages() {
-		List<MessageDto> messageDtos;
+    @AuraEnabled
+    public static Integer getTotalMessagesAmount() {
+        try {
+            GmailPublicApiService service = new GmailPublicApiService();
+            return service.getTotalMessagesAmount();
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
 
-		System.debug('call controller');
+    @AuraEnabled
+    public static List<Custom_Email_Message__c> retrieveMessages(Integer datasetNumber) {
+        try {
+            GmailPublicApiService service = new GmailPublicApiService();
+            return service.retrieveMessageRecords(datasetNumber);
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
 
-		try {
-			GmailPublicApiService service = new GmailPublicApiService();
-			messageDtos = service.retrieveMessages();
-		} catch (Exception e) {
-			throw new AuraHandledException(e.getMessage());
-		}
-
-		return messageDtos;
-	}
-
-	@AuraEnabled
-	public static List<Custom_Email_Message__c> retrieveMessages(Integer pageNumber) {
-		try {
-			Integer offset = pageNumber * 50;
-			return CustomEmailMessageSelector.selectMessagesWithOffset(offset);
-		} catch (Exception e) {
-			throw new AuraHandledException(e.getMessage());
-		}
-	}
+    @AuraEnabled
+    public static void sendMessage(String serializedMessageInfo) {
+        try {
+            GmailPublicApiService service = new GmailPublicApiService();
+            service.sendMessage(serializedMessageInfo);
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
 }
