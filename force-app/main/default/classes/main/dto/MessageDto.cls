@@ -1,6 +1,4 @@
 public with sharing class MessageDto {
-	// TODO: change field names (delete Value postfix), from may be sender
-
 	public String id;
 	public String threadId;
 	public List<String> labelIds;

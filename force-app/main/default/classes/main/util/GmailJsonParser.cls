@@ -42,10 +42,12 @@ public with sharing class GmailJsonParser {
     }
 
     public String parseSenderName(String sender) {
+        // sender received like: Mike Tyson <mike.tyson@gmail.com>
         return sender.substringBefore('\u003c').replaceAll('"', '');
     }
 
     public String parseSenderEmail(String sender) {
+        // sender received like: Mike Tyson <mike.tyson@gmail.com>
         return sender.substringBetween('\u003c', '\u003e');
     }
 }
