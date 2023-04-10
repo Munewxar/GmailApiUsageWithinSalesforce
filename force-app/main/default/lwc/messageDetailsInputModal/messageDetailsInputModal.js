@@ -7,24 +7,24 @@ export default class MessageDetailsInputModal extends LightningModal {
         const subjectElement = this.template.querySelector('.subject');
         const messageElement = this.template.querySelector('.message');
 
-        const isValid = this.checkInputValidity(emailElement, subjectElement, messageElement)
+        const isValid = this.checkInputValidity(emailElement, subjectElement, messageElement);
 
         if (isValid) {
             const toAddress = emailElement.value;
             const subject = subjectElement.value;
             const messageText = messageElement.value;
 
-            this.fireSendMessageEvent(toAddress, subject, messageText)
-            this.close()
+            this.fireSendMessageEvent(toAddress, subject, messageText);
+            this.close();
         } else {
-            this.showInputError()
+            this.showInputError();
         }
     }
 
     checkInputValidity(emailElement, subjectElement, messageElement) {
         return emailElement.checkValidity()
             && subjectElement.value
-            && messageElement.value
+            && messageElement.value;
     }
 
     fireSendMessageEvent(toAddress, subject, messageText) {
