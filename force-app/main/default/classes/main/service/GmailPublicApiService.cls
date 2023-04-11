@@ -3,6 +3,7 @@ public with sharing class GmailPublicApiService {
 	private static final String HEADER_SUBJECT = 'Subject';
 	private static final String HEADER_FROM = 'From';
 	private static final String PART_ID = '0';
+	private static final Integer SUCCESS_STATUS_CODE = 200;
 
 	GmailPublicApiCalloutExecutor calloutExecutor;
 	GmailJsonParser parser;
@@ -20,7 +21,11 @@ public with sharing class GmailPublicApiService {
 		Map<String, Object> messageInfo = (Map<String, Object>) JSON.deserializeUntyped(
 			serializedMessageInfo
 		);
-		calloutExecutor.sendMessage(messageInfo);
+		Integer statusCode = calloutExecutor.sendMessage(messageInfo);
+
+		if (statusCode != SUCCESS_STATUS_CODE) {
+			throw new GmailCalloutException('There was an error sending message');
+		}
 	}
 
 	public List<Custom_Email_Message__c> retrieveMessageRecords(Integer datasetNumber) {
@@ -117,5 +122,8 @@ public with sharing class GmailPublicApiService {
 		}
 
 		return messagesList;
+	}
+
+	private class GmailCalloutException extends Exception {
 	}
 }
