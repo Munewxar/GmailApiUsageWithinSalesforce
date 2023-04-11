@@ -124,6 +124,6 @@ public with sharing class GmailPublicApiService {
 		return messagesList;
 	}
 
-	private class GmailCalloutException extends Exception {
+	public class GmailCalloutException extends Exception {
 	}
 }

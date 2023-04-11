@@ -23,7 +23,7 @@ public with sharing class GmailPublicApiCalloutExecutor {
 			return response.getBody();
 		}
 
-		return response.getBody();
+		return '';
 	}
 
 	private HttpResponse sendGetRequestToEndpoint(String endpoint) {
@@ -46,6 +46,14 @@ public with sharing class GmailPublicApiCalloutExecutor {
 	}
 
 	private String generateMessageBody(Map<String, Object> messageInfo) {
+		if (
+			!messageInfo.containsKey('toAddress') ||
+			!messageInfo.containsKey('subject') ||
+			!messageInfo.containsKey('messageText')
+		) {
+			throw new InvalidArgumentException('Arguments must not be null');
+		}
+
 		String toAddress = messageInfo.get('toAddress').toString();
 		String subject = messageInfo.get('subject').toString();
 		String messageText = messageInfo.get('messageText').toString();
@@ -77,5 +85,8 @@ public with sharing class GmailPublicApiCalloutExecutor {
 		request.setBody(messageBody);
 
 		return request;
+	}
+
+	public class InvalidArgumentException extends Exception {
 	}
 }
