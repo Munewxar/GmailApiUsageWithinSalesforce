@@ -33,8 +33,8 @@ private class ProcessEmailsSchedulerTest {
 			WHERE Id = :jobId
 		];
 
-		System.assertEquals(cronExp, ctBeforeJobStarted.CronExpression);
-		System.assertEquals(0, ctBeforeJobStarted.TimesTriggered);
+		Assert.areEqual(cronExp, ctBeforeJobStarted.CronExpression);
+		Assert.areEqual(0, ctBeforeJobStarted.TimesTriggered);
 
 		Test.stopTest();
 	}
