@@ -24,8 +24,9 @@ public with sharing class GmailPublicApiService {
 	}
 
 	public List<Custom_Email_Message__c> retrieveMessageRecords(Integer datasetNumber) {
+		Integer messagesLimit = 10;
 		Integer offset = datasetNumber * 10;
-		return CustomEmailMessageSelector.selectMessagesWithOffset(offset);
+		return CustomEmailMessageSelector.selectMessagesWithOffset(messagesLimit, offset);
 	}
 
 	public void processEmails() {
@@ -61,7 +62,10 @@ public with sharing class GmailPublicApiService {
 	}
 
 	private List<String> filterExistingMessageIds(List<String> messageIds) {
-		List<Custom_Email_Message__c> messageRecords = CustomEmailMessageSelector.selectLastHundredMessages();
+		Integer messagesToSelectAmount = 100;
+		List<Custom_Email_Message__c> messageRecords = CustomEmailMessageSelector.selectLastMessages(
+			messagesToSelectAmount
+		);
 
 		List<String> filteredMessageIds = new List<String>();
 
