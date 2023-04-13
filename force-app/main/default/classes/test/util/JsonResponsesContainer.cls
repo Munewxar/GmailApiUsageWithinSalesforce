@@ -9,8 +9,6 @@ public with sharing class JsonResponsesContainer {
 		'18596c90603cb9bc'
 	};
 
-	public static final MessageDto parsedMessage = new MessageDto();
-
 	public static final String MESSAGE_IDS_RESPONSE =
 		'{' +
 		'"messages": [' +
@@ -168,4 +166,6 @@ public with sharing class JsonResponsesContainer {
 		'  "historyId": "1480",' +
 		'  "internalDate": "1673290319000"' +
 		'}';
+
+	public static final MessageDto parsedMessage = MessageDto.parse(MESSAGE_RESPONSE)
 }
