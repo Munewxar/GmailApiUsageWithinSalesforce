@@ -167,5 +167,5 @@ public with sharing class JsonResponsesContainer {
 		'  "internalDate": "1673290319000"' +
 		'}';
 
-	public static final MessageDto parsedMessage = MessageDto.parse(MESSAGE_RESPONSE)
+	public static final MessageDto parsedMessage = MessageDto.parse(MESSAGE_RESPONSE);
 }
