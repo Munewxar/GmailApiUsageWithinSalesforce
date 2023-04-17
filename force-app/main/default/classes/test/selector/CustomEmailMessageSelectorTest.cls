@@ -24,7 +24,7 @@ private class CustomEmailMessageSelectorTest {
 
 		Test.startTest();
 
-		Integer messagesAmount = CustomEmailMessageSelector.selectMessagesCount();
+		Integer messagesAmount = new CustomEmailMessageSelector().selectMessagesCount();
 
 		Assert.areEqual(
 			totalMessagesAmount,
@@ -48,9 +48,8 @@ private class CustomEmailMessageSelectorTest {
 
 		Test.startTest();
 
-		List<Custom_Email_Message__c> actualMessages = CustomEmailMessageSelector.selectLastMessages(
-			messagesToSelectAmount
-		);
+		List<Custom_Email_Message__c> actualMessages = new CustomEmailMessageSelector()
+			.selectLastMessages(messagesToSelectAmount);
 
 		Assert.areEqual(
 			expectedMessages.size(),
@@ -88,10 +87,8 @@ private class CustomEmailMessageSelectorTest {
 
 		Test.startTest();
 
-		List<Custom_Email_Message__c> actualMessages = CustomEmailMessageSelector.selectMessagesWithOffset(
-			messagesLimit,
-			offset
-		);
+		List<Custom_Email_Message__c> actualMessages = new CustomEmailMessageSelector()
+			.selectMessagesWithOffset(messagesLimit, offset);
 
 		Assert.areEqual(
 			expectedMessages.size(),
