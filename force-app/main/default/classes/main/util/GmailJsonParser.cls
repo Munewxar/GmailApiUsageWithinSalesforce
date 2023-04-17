@@ -46,6 +46,10 @@ public with sharing class GmailJsonParser {
 			return '';
 		}
 
+		if (!sender.contains('\u003c')) {
+			return sender;
+		}
+
 		// sender received like: Mike Tyson <mike.tyson@gmail.com>
 		return sender.substringBefore('\u003c').replaceAll('"', '').trim();
 	}
@@ -53,6 +57,10 @@ public with sharing class GmailJsonParser {
 	public String parseSenderEmail(String sender) {
 		if (sender == null) {
 			return '';
+		}
+
+		if (!sender.contains('\u003c')) {
+			return sender;
 		}
 
 		// sender received like: Mike Tyson <mike.tyson@gmail.com>
