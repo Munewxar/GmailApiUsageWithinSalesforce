@@ -123,6 +123,7 @@ private class GmailPublicApiCalloutExecutorTest {
 		Test.stopTest();
 	}
 
+	@IsTest
 	private static void sendMessageShouldThrowExceptionWhenInvalidParametersPassed() {
 		Test.setMock(HttpCalloutMock.class, new SuccessMock());
 
