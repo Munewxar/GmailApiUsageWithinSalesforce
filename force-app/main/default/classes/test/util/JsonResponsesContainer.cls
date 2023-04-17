@@ -1,5 +1,7 @@
 public with sharing class JsonResponsesContainer {
-	private static final String MESSAGE_ID = '18597e031b4f39c3';
+	public static final String MESSAGE_ID_FOR_FILTERING = '18596c90603cb9bc';
+	public static final String MESSAGE_ID = '18597e031b4f39c3';
+
 	private static final String SENDER = 'Steven Altamirano \u003csteven.altamirano.sf@gmail.com\u003e';
 	private static final String SUBJECT = 'Test';
 	private static final String MESSAGE = 'Test!';
