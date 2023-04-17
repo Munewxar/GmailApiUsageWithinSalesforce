@@ -5,22 +5,32 @@ public with sharing class GmailPublicApiService {
 	private static final String PART_ID = '0';
 	private static final Integer SUCCESS_STATUS_CODE = 200;
 
-	GmailPublicApiCalloutExecutor calloutExecutor;
-	GmailJsonParser parser;
+	@TestVisible
+	private CustomEmailMessageSelector selector;
+	@TestVisible
+	private GmailPublicApiCalloutExecutor calloutExecutor;
+
+	private GmailJsonParser parser;
 
 	public GmailPublicApiService() {
+		selector = new CustomEmailMessageSelector();
 		calloutExecutor = new GmailPublicApiCalloutExecutor();
 		parser = new GmailJsonParser(MAX_MESSAGES_AMOUNT);
 	}
 
 	public Integer getTotalMessagesAmount() {
-		return CustomEmailMessageSelector.selectMessagesCount();
+		return selector.selectMessagesCount();
 	}
 
 	public void sendMessage(String serializedMessageInfo) {
+		if (serializedMessageInfo == null) {
+			throw new ContractViolationException('Incoming parameters must not be null');
+		}
+
 		Map<String, Object> messageInfo = (Map<String, Object>) JSON.deserializeUntyped(
 			serializedMessageInfo
 		);
+
 		Integer statusCode = calloutExecutor.sendMessage(messageInfo);
 
 		if (statusCode != SUCCESS_STATUS_CODE) {
@@ -29,9 +39,14 @@ public with sharing class GmailPublicApiService {
 	}
 
 	public List<Custom_Email_Message__c> retrieveMessageRecords(Integer datasetNumber) {
+		if (datasetNumber == null) {
+			throw new ContractViolationException('Incoming parameters must not be null');
+		}
+
 		Integer messagesLimit = 10;
 		Integer offset = datasetNumber * 10;
-		return CustomEmailMessageSelector.selectMessagesWithOffset(messagesLimit, offset);
+
+		return selector.selectMessagesWithOffset(messagesLimit, offset);
 	}
 
 	public void processEmails() {
@@ -68,7 +83,7 @@ public with sharing class GmailPublicApiService {
 
 	private List<String> filterExistingMessageIds(List<String> messageIds) {
 		Integer messagesToSelectAmount = 100;
-		List<Custom_Email_Message__c> messageRecords = CustomEmailMessageSelector.selectLastMessages(
+		List<Custom_Email_Message__c> messageRecords = selector.selectLastMessages(
 			messagesToSelectAmount
 		);
 
@@ -125,5 +140,8 @@ public with sharing class GmailPublicApiService {
 	}
 
 	public class GmailCalloutException extends Exception {
+	}
+
+	public class ContractViolationException extends Exception {
 	}
 }

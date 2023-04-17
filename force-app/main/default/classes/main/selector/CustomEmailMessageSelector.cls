@@ -1,9 +1,9 @@
 public with sharing class CustomEmailMessageSelector {
-	public static Integer selectMessagesCount() {
+	public Integer selectMessagesCount() {
 		return [SELECT COUNT() FROM Custom_Email_Message__c];
 	}
 
-	public static List<Custom_Email_Message__c> selectLastMessages(Integer messagesAmount) {
+	public List<Custom_Email_Message__c> selectLastMessages(Integer messagesAmount) {
 		return [
 			SELECT Id, Message_Id__c
 			FROM Custom_Email_Message__c
@@ -12,7 +12,7 @@ public with sharing class CustomEmailMessageSelector {
 		];
 	}
 
-	public static List<Custom_Email_Message__c> selectMessagesWithOffset(
+	public List<Custom_Email_Message__c> selectMessagesWithOffset(
 		Integer messagesLimit,
 		Integer offset
 	) {
